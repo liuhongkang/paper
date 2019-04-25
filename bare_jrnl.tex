@@ -15,346 +15,28 @@
 %% and
 %% http://www.ieee.org/
 
-%%*************************************************************************
-%% Legal Notice:
-%% This code is offered as-is without any warranty either expressed or
-%% implied; without even the implied warranty of MERCHANTABILITY or
-%% FITNESS FOR A PARTICULAR PURPOSE! 
-%% User assumes all risk.
-%% In no event shall the IEEE or any contributor to this code be liable for
-%% any damages or losses, including, but not limited to, incidental,
-%% consequential, or any other damages, resulting from the use or misuse
-%% of any information contained here.
-%%
-%% All comments are the opinions of their respective authors and are not
-%% necessarily endorsed by the IEEE.
-%%
-%% This work is distributed under the LaTeX Project Public License (LPPL)
-%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
-%% distributed and modified. A copy of the LPPL, version 1.3, is included
-%% in the base LaTeX documentation of all distributions of LaTeX released
-%% 2003/12/01 or later.
-%% Retain all contribution notices and credits.
-%% ** Modified files should be clearly indicated as such, including  **
-%% ** renaming them and changing author support contact information. **
-%%*************************************************************************
-
-
-% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
-% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
-% *** with production work. The IEEE's font choices and paper sizes can   ***
-% *** trigger bugs that do not appear when using other class files.       ***                          ***
-% The testflow support page is at:
-% http://www.michaelshell.org/tex/testflow/
-
-
 
 \documentclass[journal]{IEEEtran}
-%
-% If IEEEtran.cls has not been installed into the LaTeX system files,
-% manually specify the path to it like:
-% \documentclass[journal]{../sty/IEEEtran}
+
 
 \usepackage{times}
 \usepackage{epsfig}
 \usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage[justification=centering]{caption}
 \usepackage{subfigure}
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{multirow}
-\usepackage{enumerate}
 \usepackage{cite}
+\usepackage{bm}
+\usepackage{hyperref}
 \makeatletter
 \newcommand{\rmnum}[1]{\romannumeral #1}
 \newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
 \makeatother
 
-
-% Some very useful LaTeX packages include:
-% (uncomment the ones you want to load)
-
-
-% *** MISC UTILITY PACKAGES ***
-%
-%\usepackage{ifpdf}
-% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
-% compilation based on whether the output is pdf or dvi.
-% usage:
-% \ifpdf
-%   % pdf code
-% \else
-%   % dvi code
-% \fi
-% The latest version of ifpdf.sty can be obtained from:
-% http://www.ctan.org/pkg/ifpdf
-% Also, note that IEEEtran.cls V1.7 and later provides a builtin
-% \ifCLASSINFOpdf conditional that works the same way.
-% When switching from latex to pdflatex and vice-versa, the compiler may
-% have to be run twice to clear warning/error messages.
-
-
-
-
-
-
-% *** CITATION PACKAGES ***
-%
-%\usepackage{cite}
-% cite.sty was written by Donald Arseneau
-% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
-% \cite{} output to follow that of the IEEE. Loading the cite package will
-% result in citation numbers being automatically sorted and properly
-% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
-% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
-% \cite will automatically add leading space, if needed. Use cite.sty's
-% noadjust option (cite.sty V3.8 and later) if you want to turn this off
-% such as if a citation ever needs to be enclosed in parenthesis.
-% cite.sty is already installed on most LaTeX systems. Be sure and use
-% version 5.0 (2009-03-20) and later if using hyperref.sty.
-% The latest version can be obtained at:
-% http://www.ctan.org/pkg/cite
-% The documentation is contained in the cite.sty file itself.
-
-
-
-
-
-
-% *** GRAPHICS RELATED PACKAGES ***
-%
-\ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
-  % declare the path(s) where your graphic files are
-  % \graphicspath{{../pdf/}{../jpeg/}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
-\else
-  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
-  % will default to the driver specified in the system graphics.cfg if no
-  % driver is specified.
-  % \usepackage[dvips]{graphicx}
-  % declare the path(s) where your graphic files are
-  % \graphicspath{{../eps/}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.eps}
-\fi
-% graphicx was written by David Carlisle and Sebastian Rahtz. It is
-% required if you want graphics, photos, etc. graphicx.sty is already
-% installed on most LaTeX systems. The latest version and documentation
-% can be obtained at: 
-% http://www.ctan.org/pkg/graphicx
-% Another good source of documentation is "Using Imported Graphics in
-% LaTeX2e" by Keith Reckdahl which can be found at:
-% http://www.ctan.org/pkg/epslatex
-%
-% latex, and pdflatex in dvi mode, support graphics in encapsulated
-% postscript (.eps) format. pdflatex in pdf mode supports graphics
-% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
-% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
-% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
-% which can result in "jaggedy"/blurry rendering of lines and letters as
-% well as large increases in file sizes.
-%
-% You can find documentation about the pdfTeX application at:
-% http://www.tug.org/applications/pdftex
-
-
-
-
-
-% *** MATH PACKAGES ***
-%
-%\usepackage{amsmath}
-% A popular package from the American Mathematical Society that provides
-% many useful and powerful commands for dealing with mathematics.
-%
-% Note that the amsmath package sets \interdisplaylinepenalty to 10000
-% thus preventing page breaks from occurring within multiline equations. Use:
-%\interdisplaylinepenalty=2500
-% after loading amsmath to restore such page breaks as IEEEtran.cls normally
-% does. amsmath.sty is already installed on most LaTeX systems. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/pkg/amsmath
-
-
-
-
-
-% *** SPECIALIZED LIST PACKAGES ***
-%
-%\usepackage{algorithmic}
-% algorithmic.sty was written by Peter Williams and Rogerio Brito.
-% This package provides an algorithmic environment fo describing algorithms.
-% You can use the algorithmic environment in-text or within a figure
-% environment to provide for a floating algorithm. Do NOT use the algorithm
-% floating environment provided by algorithm.sty (by the same authors) or
-% algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
-% algorithm float types and packages that provide these will not provide
-% correct IEEE style captions. The latest version and documentation of
-% algorithmic.sty can be obtained at:
-% http://www.ctan.org/pkg/algorithms
-% Also of interest may be the (relatively newer and more customizable)
-% algorithmicx.sty package by Szasz Janos:
-% http://www.ctan.org/pkg/algorithmicx
-
-
-
-
-% *** ALIGNMENT PACKAGES ***
-%
-%\usepackage{array}
-% Frank Mittelbach's and David Carlisle's array.sty patches and improves
-% the standard LaTeX2e array and tabular environments to provide better
-% appearance and additional user controls. As the default LaTeX2e table
-% generation code is lacking to the point of almost being broken with
-% respect to the quality of the end results, all users are strongly
-% advised to use an enhanced (at the very least that provided by array.sty)
-% set of table tools. array.sty is already installed on most systems. The
-% latest version and documentation can be obtained at:
-% http://www.ctan.org/pkg/array
-
-
-% IEEEtran contains the IEEEeqnarray family of commands that can be used to
-% generate multiline equations as well as matrices, tables, etc., of high
-% quality.
-
-
-
-
-% *** SUBFIGURE PACKAGES ***
-%\ifCLASSOPTIONcompsoc
-%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
-%\else
-%  \usepackage[caption=false,font=footnotesize]{subfig}
-%\fi
-% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
-% for subfigure.sty, the latter of which is no longer maintained and is
-% incompatible with some LaTeX packages including fixltx2e. However,
-% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
-% which will override IEEEtran.cls' handling of captions and this will result
-% in non-IEEE style figure/table captions. To prevent this problem, be sure
-% and invoke subfig.sty's "caption=false" package option (available since
-% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
-% handling of captions.
-% Note that the Computer Society format requires a larger sans serif font
-% than the serif footnote size font used in traditional IEEE formatting
-% and thus the need to invoke different subfig.sty package options depending
-% on whether compsoc mode has been enabled.
-%
-% The latest version and documentation of subfig.sty can be obtained at:
-% http://www.ctan.org/pkg/subfig
-
-
-
-
-% *** FLOAT PACKAGES ***
-%
-%\usepackage{fixltx2e}
-% fixltx2e, the successor to the earlier fix2col.sty, was written by
-% Frank Mittelbach and David Carlisle. This package corrects a few problems
-% in the LaTeX2e kernel, the most notable of which is that in current
-% LaTeX2e releases, the ordering of single and double column floats is not
-% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
-% single column figure to be placed prior to an earlier double column
-% figure.
-% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
-% corrections already built into the system in which case a warning will
-% be issued if an attempt is made to load fixltx2e.sty as it is no longer
-% needed.
-% The latest version and documentation can be found at:
-% http://www.ctan.org/pkg/fixltx2e
-
-
-%\usepackage{stfloats}
-% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
-% the ability to do double column floats at the bottom of the page as well
-% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
-% LaTeX2e). It also provides a command:
-%\fnbelowfloat
-% to enable the placement of footnotes below bottom floats (the standard
-% LaTeX2e kernel puts them above bottom floats). This is an invasive package
-% which rewrites many portions of the LaTeX2e float routines. It may not work
-% with other packages that modify the LaTeX2e float routines. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/pkg/stfloats
-% Do not use the stfloats baselinefloat ability as the IEEE does not allow
-% \baselineskip to stretch. Authors submitting work to the IEEE should note
-% that the IEEE rarely uses double column equations and that authors should try
-% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
-% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
-% such ways.
-% Do not attempt to use stfloats with fixltx2e as they are incompatible.
-% Instead, use Morten Hogholm'a dblfloatfix which combines the features
-% of both fixltx2e and stfloats:
-%
-% \usepackage{dblfloatfix}
-% The latest version can be found at:
-% http://www.ctan.org/pkg/dblfloatfix
-
-
-
-
-%\ifCLASSOPTIONcaptionsoff
-%  \usepackage[nomarkers]{endfloat}
-% \let\MYoriglatexcaption\caption
-% \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
-%\fi
-% endfloat.sty was written by James Darrell McCauley, Jeff Goldberg and 
-% Axel Sommerfeldt. This package may be useful when used in conjunction with 
-% IEEEtran.cls'  captionsoff option. Some IEEE journals/societies require that
-% submissions have lists of figures/tables at the end of the paper and that
-% figures/tables without any captions are placed on a page by themselves at
-% the end of the document. If needed, the draftcls IEEEtran class option or
-% \CLASSINPUTbaselinestretch interface can be used to increase the line
-% spacing as well. Be sure and use the nomarkers option of endfloat to
-% prevent endfloat from "marking" where the figures would have been placed
-% in the text. The two hack lines of code above are a slight modification of
-% that suggested by in the endfloat docs (section 8.4.1) to ensure that
-% the full captions always appear in the list of figures/tables - even if
-% the user used the short optional argument of \caption[]{}.
-% IEEE papers do not typically make use of \caption[]'s optional argument,
-% so this should not be an issue. A similar trick can be used to disable
-% captions of packages such as subfig.sty that lack options to turn off
-% the subcaptions:
-% For subfig.sty:
-% \let\MYorigsubfloat\subfloat
-% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
-% However, the above trick will not work if both optional arguments of
-% the \subfloat command are used. Furthermore, there needs to be a
-% description of each subfigure *somewhere* and endfloat does not add
-% subfigure captions to its list of figures. Thus, the best approach is to
-% avoid the use of subfigure captions (many IEEE journals avoid them anyway)
-% and instead reference/explain all the subfigures within the main caption.
-% The latest version of endfloat.sty and its documentation can obtained at:
-% http://www.ctan.org/pkg/endfloat
-%
-% The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
-% later in the document, say, to conditionally put the References on a 
-% page by themselves.
-
-
-
-
-% *** PDF, URL AND HYPERLINK PACKAGES ***
-%
-%\usepackage{url}
-% url.sty was written by Donald Arseneau. It provides better support for
-% handling and breaking URLs. url.sty is already installed on most LaTeX
-% systems. The latest version and documentation can be obtained at:
-% http://www.ctan.org/pkg/url
-% Basically, \url{my_url_here}.
-
-
-
-
-% *** Do not adjust lengths that control margins, column widths, etc. ***
-% *** Do not use packages that alter fonts (such as pslatex).         ***
-% There should be no need to do such things with IEEEtran.cls V1.6 and later.
-% (Unless specifically asked to do so by the journal or conference you plan
-% to submit to, of course. )
 
 
 % correct bad hyphenation here
@@ -362,13 +44,7 @@
 
 
 \begin{document}
-%
-% paper title
-% Titles are generally capitalized except for words such as a, an, and, as,
-% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
-% not capitalized unless they are the first or last word of the title.
-% Linebreaks \\ can be used within to get better formatting as desired.
-% Do not put math or special symbols in the title.
+
 \title{Small Target Detection in Infrared Video \\Based on Spatio-temporal Tensor Model}
 %
 %
@@ -452,25 +128,12 @@ Infrared video, small target detection, spatio-temporal tensor model, tensor dec
 \end{IEEEkeywords}
 
 
-
-
+%Intruction
+%
+%
 
 \section{Introduction}
-% The very first letter is a 2 line initial drop letter followed
-% by the rest of the first word in caps.
-% 
-% form to use if the first word consists of a single letter:
-% \IEEEPARstart{A}{demo} file is ....
-% 
-% form to use if you need the single drop letter followed by
-% normal text (unknown if ever used by the IEEE):
-% \IEEEPARstart{A}{}demo file is ....
-% 
-% Some journals put the first two words in caps:
-% \IEEEPARstart{T}{his demo} file is ....
-% 
-% Here we have the typical use of a "T" for an initial drop letter
-% and "HIS" in caps to complete the first word.
+
 \IEEEPARstart{A}{t} present, infrared target detection technology has been widely used in missile tracking, precision guidance, early warning, maritime surveillance, ground monitoring\cite{luo2015space,dawson2010space,li2014infrared}, etc. Compared with ordinary detection tasks, lacking of sufficient information to determine the target is the main challenge of small target detection in infrared image. Due to the long infrared imaging distance, the size of small targets in infrared image is very small, generally ranging from $2\times2$ to $9\times9$ pixels\cite{wang2017infrared}. And in the case of long imaging distance, the small targets in infrared image has no fixed shape and stable texture features. In addition, the infrared radiation of targets is heavily attenuated after long-distance propagation, which results in a low signal-to-noise ratio (SNR) for small infrared targets\cite{li2016novel}. When there are complex background clutter and noise, small targets with low signal-to-clutter ratio (SCR) are usually buried in background. Therefore, the detection of small targets under a complex infrared background is remaining a problem that is full of difficulty and challenges.
 
 Compared with visible image, infrared image look simpler. However, infrared image lacks color information and texture information, and has poor image quality usually, which cause great difficulty in the process of small target detection.The lack of color information will result in fewer features for distinguishing between target and background. The lack of texture information and shape information means that the target cannot be distinguished based on the feature learning of the small target. Therefore, utilizing not only the relationship between small target and background, but also the motion characteristics of target is an important way to detect infrared small targets.
@@ -479,7 +142,9 @@ The small target detection methods in infrared image are mainly divided into two
 
 The remaining chapters of this paper are organized as follows: We introduce the related researches of infrared small target detection in section \Rmnum{2}; And in section \Rmnum{3} we propose the spatio-temporal tensor model and the method for detecting infrared small targets via spatio-temporal image patch tensor model in detail; In section \Rmnum{4},we verify the effectiveness of the proposed method via a large number of experiments; In section \Rmnum{5}, we give the conclusions and prospects for future.
 
-
+%Related work
+%
+%
 \section{Related Work}
 At present, the methods proposed for detecting small moving targets in infrared video can roughly classified into two categories. The first major category is mainly performing target detection on a single image. Another category detect small targets utilizing multiple images from a infrared video.
 
@@ -493,104 +158,70 @@ Based on the second hypothesis, small target detection in infrared image can be 
 \subsection{Detection Methods Based on Multiple Images}
 The second major mathods for infrared small targets detection are mainly based on multiple images from infrared video. These methods make full use of information in spatial domain ton suppress background clutters and utilize motion characteristics of targets to highlight small targets. Therefore better detection results could got. Silverman and Caefer et al. utilized temporal information for small target detection, and proposed Recursive Variance Filter (TVF)\cite{silverman1998temporal} and Damped Sinusoid Filters (TTF)\cite{caefer1998temporal}. But the difference of target and moving background can not be reflected according to temporal information only. For example, moving cloud may be detected as true target. And then Deng et al.\cite{deng2016infrared} proposed a spatial-temporal local contrast filter for infrared small target detection, but the calculation of local contrast via pixels is easily affected by noise. Gao et al. proposed TVPCF\cite{gao2017tvpcf} which combines multi-scale local contrast based on patches with temporal filter to obtain better detection results. Li et al.\cite{li2016novel} proposed a new way to calculate local contrast. Image patches in spatio-temporal neighborhood of current image patch are used to reconstruct a new image patch. The residual of current image patch and reconstructed image patch is defined as local contrast. Although this method can suppress clutters and single pixel noise, the reconstruction process is extremely sensitive ton noise. Therefore many targets will be missed under high noise.
 
-
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
-
-
-% An example of a floating figure using the graphicx package.
-% Note that \label must occur AFTER (or within) \caption.
-% For figures, \caption should occur after the \includegraphics.
-% Note that IEEEtran v1.7 and later has special internal code that
-% is designed to preserve the operation of \label within \caption
-% even when the captionsoff option is in effect. However, because
-% of issues like this, it may be the safest practice to put all your
-% \label just after \caption rather than within \caption{}.
-%
-% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
-% option should be used if it is desired that the figures are to be
-% displayed while in draft mode.
-%
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure}
-
-% Note that the IEEE typically puts floats only at the top, even when this
-% results in a large percentage of a column being occupied by floats.
+\begin{figure*}[htb]
+  \centering
+  \includegraphics[width=0.9\textwidth]{flow_chart.png}
+  \caption{The flow chart of small target detection based on spatio-temporal tensor model}
+  \label{fig:flow_chart}
+\end{figure*}
 
 
-% An example of a double column floating figure using two subfigures.
-% (The subfig.sty package must be loaded for this to work.)
-% The subfigure \label commands are set within each subfloat command,
-% and the \label for the overall figure must come after \caption.
-% \hfil is used as a separator to get equal spacing.
-% Watch out that the combined width of all the subfigures on a 
-% line do not exceed the text width or a line break will occur.
-%
-%\begin{figure*}[!t]
-%\centering
-%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
-%\label{fig_second_case}}
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure*}
-%
-% Note that often IEEE papers with subfigures do not employ subfigure
-% captions (using the optional argument to \subfloat[]), but instead will
-% reference/describe all of them (a), (b), etc., within the main caption.
-% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
-% labels, the optional argument to \subfloat must be present. If a
-% subcaption is not desired, just leave its contents blank,
-% e.g., \subfloat[].
+\section{Construction and Decomposition of Spatio-temporal Tensor Model}
+Due to the traditional imaging mechanism, there is usually a strong correlation between background image patches in spatial adjacent domain. And background moves slowly compared with target, so background image patches also have strong correlations in temporal adjacent domain. Then, single image is segmented into image patches by sliding window, and an image patch cube is formed by current patch and patches from the spatial and temporal adjacent domain of current patch. The image patch cube is viewed as a spatio-temporal tensor. In the spatio-temporal tensor, background tensor is low-rank and target tensor is sparse. Therefore the target tensor can be decomposed from original tensor, then target patch is separated from original patch. The specific construction method and decomposition process of spatio-temporal tensor model will be described in detail in this section.
 
 
-% An example of a floating table. Note that, for IEEE style tables, the
-% \caption command should come BEFORE the table and, given that table
-% captions serve much like titles, are usually capitalized except for words
-% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
-% and up, which are usually not capitalized unless they are the first or
-% last word of the caption. Table text will default to \footnotesize as
-% the IEEE normally uses this smaller font for tables.
-% The \label must come after \caption as always.
-%
-%\begin{table}[!t]
-%% increase table row spacing, adjust to taste
-%\renewcommand{\arraystretch}{1.3}
-% if using array.sty, it might be a good idea to tweak the value of
-% \extrarowheight as needed to properly center the text within the cells
-%\caption{An Example of a Table}
-%\label{table_example}
-%\centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
-%\hline
-%One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
+\subsection{Construction of spatio-temporal tensor model}
+In order to make more use of the relevant information between backgrounds in infrared frames, we propose a new target and background separation model called the spatio-temporal tensor model in this section. Usually, the infrared image model is defined as follows for infrared small target detection similar to\cite{gu2010kernel}:
+\begin{equation}
+  f_D(x,y)=f_T(x,y)+f_B(x,y)+f_N(x,y)
+  \label{eq:image_model}
+\end{equation}
+where $f_D,f_T,f_B,f_N \text{ and } (x,y)$ corresponds to the original infrared image, the target image, the background image, the noise image and the position coordinates of each pixel respectively.
+
+Figure 1(a) shows the construction process of spatio-temporal image patch tensor. Firstly, the original image is divided into several image patches via sliding window from top to bottom and left to right. For each image patch, $m_t$ image patches in temporal adjacent domain and $m_s$ image patches in spatial adjacent domian (including itself) are collected to form a spatio-temporal cube. The spatio-temporal cube is also viewed as a tensor called spatio-temporal image patch tensor. Spatial image patch tensor and temporal image patch tensor are constructed 
+as shown in figure 1(b):
+\begin{equation}
+  \begin{split}
+    \bm{D}_t = \bm{B}_t + \bm{T}_t + \bm{N}_t \\
+    \bm{D}_s = \bm{B}_s + \bm{T}_s + \bm{N}_s
+  \end{split}
+\end{equation}
+where $\bm{D}_t,\bm{B}_t,\bm{T}_t,\bm{N}_t \in R^{{I}\times{J}\times{m_t}}$ are the tensors composed with original image patches, background image patches, target image patches and noise image patches from spatial adjacent domain separately. Moreover, $\bm{D}_s,\bm{B}_s,\bm{T}_s,\bm{N}_s \in R^{{I}\times{J}\times{m_s}}$ are are the tensors composed with original image patches, background image patches, target image patches and noise image patches from temporal adjacent domain separately. $I\text{ and }J$ correspond to the height and width of image patch, respectively, depending on the size of sliding window. Then, the context information in spatial and temporal adjacent domain could be utilized by us at the same time, so the following tensor model can be formed by combining the spatial and temporal tensor mentioned above:
+\begin{equation}
+  \bm{D}=\bm{B}+\bm{T}+\bm{N}
+\end{equation}
+where $\bm{D},\bm{B},\bm{T},\bm{N} \in R^{{I}\times{J}\times{(m_t+m_s)}}$.
+
+The context information of background in temporal domain and spatial domain can be utilized simultaneously according to the above model. Nextly, we will analyze the characteristics of each component in spatio-temporal image patch tensor in detail. And we will give the solution algorithm for our spatio-temporal tensor model on the basis of classical low-rank tensor recovery algorithm to detect small targets in infrared video.
+
+\subsection{Background image patch tensor $\mathbf{B}$ }
+In general, the movement of background is slow relative to small targets, so there are high correlations between background image patches in temporal neighborhood. Moreover, the imageing principium in infrared video causes that the image patches are also correlated within spatial local neighborhood. At present, the most advanced IPI\cite{gao2013infrared} model adopts the non-local correlation of background image patches, but we adopt the local correlation of them. The reason why we adopt the local correlation of background image patches is that the local correlation is stronger than non-local.
+
+In order to compare with traditional IPI model for convenience, our spatio-temporal tensor model selects several background image patches in spatio-temporal adjacent domain, and the IPI model randomly selects same number of background image patches of non-local regions. Then we transform the spatio-temporal tensor into a mode-1 unfold matrix. And the singular values are calculated of the matrixs formed by two models. It can be seen from the first and second rows of figure(2) that the singular valuse of spatio-temporal tensor which utilizes the local correlation of background image patches decrease faster. It proves that the background tensor in our model has better low-rank characteristics, so it can be ensured that there will be fewer background components (clutters) in targetb tensor during the decomposition process.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{singular.png}
+  \caption{First row: singular value curve for non-local correlation;\\Second row:singular value curve for local correlation}
+  \label{singular}
+\end{figure}
+
+From the above analysis, the background tensor is low-rank:
+\begin{equation}
+  rank(\bm{B}) \leq r
+\end{equation}
+where $r$ is a low-rank constant constraint corresponding to background tensor. Usually $r$ is bigger in complex background than uniform background.
 
 
-% Note that the IEEE does not put floats in the very first column
-% - or typically anywhere on the first page for that matter. Also,
-% in-text middle ("here") positioning is typically not used, but it
-% is allowed and encouraged for Computer Society conferences (but
-% not Computer Society journals). Most IEEE journals/conferences use
-% top floats exclusively. 
-% Note that, LaTeX2e, unlike IEEE journals/conferences, places
-% footnotes above bottom floats. This can be corrected via the
-% \fnbelowfloat command of the stfloats package.
+\subsection{Target Image Patch Tensor $\mathbf{T}$}
+In actual application scenario, due to the infrared imaging characteristics, there is no obvious texture information and color information of small targets in infrared video. And the sizes of different targets also vary within a certain range. Moreover, the brightness of infrared small target is also different in different scenes. But infrared small targets are always small in size because of that imaging distance is far. So if small target appears in spatio-temporal patch cube, the volume occupied by small target is great smaller compared with the volume of entire spatio-temporal patch cube. Specifically expressed as follows:
+\begin{equation}
+  V(\bm{T}) \ll V(\bm{D})
+\end{equation}
+Therefore, the target image patch tensor is a sparse tensor actually, and it satisfies:
+\begin{equation}
+  \left \| \bm{T} \right \|_0 \leq k
+\end{equation}
+where $k$ is a small constant that can be visually regarded as the volume corresponding to target, which is determined by the size of the target and the number of times that targets appear in the spatio-temporal patch cube.
 
 
 
