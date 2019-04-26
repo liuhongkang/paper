@@ -223,8 +223,49 @@ Therefore, the target image patch tensor is a sparse tensor actually, and it sat
 \end{equation}
 where $k$ is a small constant that can be visually regarded as the volume corresponding to target, which is determined by the size of the target and the number of times that targets appear in the spatio-temporal patch cube.
 
+\subsection{Noise Image Patch Tensor $\mathbf{N}$}
+As mentioned in\cite{gao2013infrared}, random noise in infrared video is generally considered to be independent and identically distributed Gaussian white noise. And for a given $\delta>0$, noise image patch tensor satisfies $\left \| \bm{N} \right \|_F \leq \delta$. So according to formula (3), we can get the following restriction:
+\begin{equation}
+  \left \| \bm{D}-\bm{B}-\bm{F} \right \|_F \leq \delta.
+\end{equation}
+The $r,k,\delta$ vary in different image tensor, but we will not utilize the specific values of them.
 
 
+\subsection{The Decomposition Method for Spatio-temporal Image Patch Tensor}
+The ultimate goal of us is to detect small targets in infrared video, so we need to get the target image $f_T$ based on the original image $f_D$ given. As shown in figure 1(c), the current target patches of all target tensors corresponding to entire original image can be reconstructed to obtain the target image, so it is critical to attain the target tensor from original spatio-temporal tensor.
+
+We first assume that there is no noise in original infrared image, then the original image consists of background image and target image, expressed in the tensor model as $\bm{D}=\bm{B}+\bm{T}$. According to the above discussion, we know that the background image patch tensor is low-rank and the target image patch tensor is sparse. So we can attain target image patch tensor and background image patch tensor from tensor decomposition. And then, we can reconstruct the target image from all target image patch tensors. Therefore, the original target detection problem is transformed into the following optimization problem according to our model:
+\begin{equation}
+  \underset{\bm{B},\bm{T}}{min} \ rank(\bm{B}) + \lambda \left \| \bm{T} \right \|_0 \ s.t. \bm{D}=\bm{B}+\bm{T}
+  \label{min_1}
+\end{equation}
+But the optimization problem is a NP-hard problem, and it is impossible to calculate the rank of background image patch tensor. Therefore, this paper adopts nuclear norm $\left \| \bm{B} \right \|_*$ to restrict background image patch tensor instead of low-rank constraint. At the same time, in order to facilitate the calculation, we substitute $l_0$ norm with $l_1$ norm of target tensor. Then, we consider that noise tensor satisfies $\left \| \bm{N}\right \|_F \leq \delta$. So, the optimization problem in equation (\ref{min_1}) can be transformed into following convex optimization problem:
+\begin{equation}
+  \underset{\bm{B},\bm{T}}{min} \ \left \| \bm{B} \right \|_* + \lambda \left \| \bm{T} \right \|_1 \ s.t. \left \|\bm{D}-\bm{B}-\bm{T} \right \|_F\leq \delta
+  \label{min_2}
+\end{equation}
+The $\lambda$ parameter mentioned above plays a balancing role between background tensor and target tensor. A large $\lambda$ not noly reduce the non-target components in target tensor, but also cause that the target components in target tensor shrink excessively because of which some targets will be missed. Conversely, a small $\lambda$ will increase the target component in target tensor, but the non-target component in target tensor may also increase so much resulting in some clutters alarmed by mistake. Therefore, it is important to choose a appropriate $\lambda$ for target detection. In this paper, the $\lambda$ is determined according to both the size of image patch and the number of selected image patches for spatio-temporal tensor construction. The detail for selection of $\lambda$ will be described in experiment section.
+
+Solving the tensor decomposition problem utilizing ADMM algorithm mentinoed in \cite{dai2017reweighted}, the augmented lagrangian expression of the formula (\ref{min_2}) is as follows:
+\begin{equation}
+  \begin{split}
+    L & = \left \|\bm{B} \right \| _* +\left \|\bm{B} \right \| _1 + \\
+    & \frac{1}{2\mu} \left \|\bm{D}-\bm{B}-\bm{T} \right \| ^2 - \langle\bm{Y},\bm{B}+\bm{T}-\bm{D}\rangle
+  \end{split}
+\end{equation}
+Then, according to the solution method proposed in\cite{dai2017reweighted}, the background tensor and the target tensor can be obtained by minimizing the augmented lagrangian function.
+
+
+\subsection{The Detection Process Based on Spatio-temporal Tensor Model}
+As shown in figure (\ref{fig:flow_chart}), the main process of detection method proposed in this paper is 
+divided into four steps:
+\begin{itemize}
+  \item [(1)]According to the prescribed step size, the original image is divided into several image blocks by sliding window from top to bottom and left to right.
+  \item [(2)]During the window sliding process, a current original spatio-temporal cube is obtained formed with current image patch and patches in its spatial and temporal adjacent domain. And the cube is viewed as a spatio-temporal image patch tensor.
+  \item [(3)]According to the solution method mentioned above, the corresponding background image patch tensor and target image patch tensor are decomposed from the original spatio-temporal image patch tensor. So we can obtain the target and background image patch corresponding to current original image patch.
+  \item [(4)]The target image and background image can be reconstructed from target patches and background patches with a sliding window passes through the entire orignal image.
+\end{itemize}
+According to the above detection process, good results can be obtained. And small targets in complex background can be accurately detected. In addition, we think that some post-processing methods could improve detection result significantly. But we adopt none post-processing method in our experiment part to compare the advantages and disadvantages of each detection method for infrared small targets.
 
 \section{Conclusion}
 The conclusion goes here.
