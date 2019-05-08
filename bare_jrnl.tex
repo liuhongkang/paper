@@ -26,6 +26,7 @@
 \usepackage[justification=centering]{caption}
 \usepackage{subfigure}
 \usepackage{float} %插图
+\usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{multirow}
@@ -35,7 +36,6 @@
 \usepackage{xfrac}% 斜分号
 \usepackage{booktabs}%表格
 \usepackage{array}% 表格
-\usepackage{lipsum}
 \makeatletter
 \newcommand{\rmnum}[1]{\romannumeral #1}
 \newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
@@ -252,16 +252,60 @@ But the optimization problem is a NP-hard problem, and it is impossible to calcu
   \underset{\bm{B_{st}},\bm{T_{st}}}{min} \ \left \| \bm{B_{st}} \right \|_* + \lambda \left \| \bm{T_{st}} \right \|_1 \ s.t. \left \|\bm{D_{st}}-\bm{B_{st}}-\bm{T_{st}} \right \|_F\leq \delta
   \label{min_2}
 \end{equation}
-The $\lambda$ parameter mentioned above plays a balancing role between background tensor and target tensor. A large $\lambda$ not noly reduce the non-target components in target tensor, but also cause that the target components in target tensor shrink excessively because of which some targets will be missed. Conversely, a small $\lambda$ will increase the target components in target tensor, but the non-target components in target tensor may also increase so much resulting in some false alarms by mistake. Therefore, it is important to choose an appropriate $\lambda$ for target detection. In this paper, the $\lambda$ is determined according to both the size of image patch and the number of image patches selected for spatio-temporal tensor construction. The detail for selection of $\lambda$ will be described in experiment section.
+The $\lambda$ parameter mentioned above plays a balancing role between background tensor and target tensor. The detail for selection of $\lambda$ will be described in experiment section.
 
-Solving the tensor decomposition problem utilizing ADMM algorithm mentinoed in \cite{dai2017reweighted}, the augmented lagrangian expression of the formula (\ref{min_2}) is as follows:
+Solving the tensor decomposition problem utilizing ADMM algorithm mentinoed in \cite{dai2017reweighted}, the augmented lagrangian expression of the formula (\ref{min_2}) can be written as:
 \begin{equation}
   \begin{split}
     L & = \left \|\bm{B_{st}} \right \| _* +\left \|\bm{T_{st}} \right \| _1 + \\
-    & \frac{1}{2\mu} \left \|\bm{D_{st}}-\bm{B_{st}}-\bm{T_{st}} \right \| ^2 - \langle\bm{Y},\bm{B_{st}}+\bm{T_{st}}-\bm{D_{st}}\rangle
+    & \frac{\alpha}{2} \left \|\bm{D_{st}}-\bm{B_{st}}-\bm{T_{st}} \right \| ^2 - \langle \bm{F},\bm{D_{st}}-\bm{B_{st}}-\bm{T_{st}} \rangle
   \end{split}
 \end{equation}
-Then, according to the solution method proposed in\cite{dai2017reweighted}, the background tensor and the target tensor can be obtained by minimizing the augmented lagrangian function.
+
+\subsection{Optimization}
+\subsubsection{Background tensor estimation}
+With the other terms fixed, the background tensor $\bm{B_{st}}$ can be estimated from the following minimization problem:
+\begin{equation}
+  E(\bm{B_{st}})=\frac{\alpha}{2} \left \|\bm{B_{st}}-(\bm{D_{st}}-\bm{T_{st}}+\frac{\bm{F}}{\alpha}) \right \|_F^2 + \left \|\bm{B_{st}} \right \| _*
+  \label{optimization1}
+\end{equation}
+
+Equation \ref{optimization1} can be easily solved by a soft thresholding operation on the singular values of observation tensor\cite{cai2010singular}:
+\begin{equation}
+  \begin{dcases}
+    \bm{J_1}=\bm{D_{st}}-\bm{T_{st}}+\frac{\bm{F}}{\alpha}\\
+    \bm{B_{st}^{k+1}}=\bm{U}(shrink\_L_{*}(\Sigma,\frac{1}{\alpha}))\bm{V}^{T}\\
+    shrink\_L_{*}(\Sigma,\eta)=max(\Sigma_{ii}-\eta,0)
+  \end{dcases}
+\end{equation}
+where $\bm{U}\Sigma\bm{V}^{T}=\bm{J_1}$ is the singular value decomposition of $\bm{J_1}$ and $\Sigma_{ii}$ is the diagonal element of the singular value matrix.
+
+\subsubsection{Target tensor estimation}
+With the other terms fixed, the target tensor $\bm{T_{st}}$ can be estimated from the following minimization problem:
+\begin{equation}
+  E(\bm{T_{st}})=\frac{\alpha}{2} \left \|\bm{T_{st}}-(\bm{D_{st}}-\bm{B_{st}}+\frac{\bm{F}}{\alpha}) \right \|_F^2 + \lambda \left \|\bm{T_{st}} \right \| _1
+  \label{optimization2}
+\end{equation}
+which can be solved efficiently by a soft shrinkage operation:
+\begin{equation}
+  \begin{dcases}
+    \bm{J_2}=\bm{D_{st}}-\bm{B_{st}}+\frac{\bm{F}}{\alpha}\\
+    \bm{T_{st}^{k+1}}=shrink\_L_{1}(\bm{J_2},\frac{\lambda}{\alpha})\\
+    shrink\_L_{1}(\xi,\eta)=\frac{\xi}{|\xi|} \ast max(\xi-\eta,0)
+  \end{dcases}
+\end{equation}
+
+\subsubsection{Update the multiplier and penalization parameter}
+\begin{equation}
+  \begin{dcases}
+    \bm{F^{k+1}}=\bm{F^{k}}+\alpha^{k}(\bm{D_{st}}-\bm{B_{st}}-\bm{T_{st}})\\
+    \alpha^{k+1}=\alpha^{k} \ast \rho
+  \end{dcases}
+\end{equation}
+
+Finally, we choose $\lambda=\sfrac{1}{(\sqrt{m_s+m_t}\times step\_size + patch\_size)}$, $\rho=0.99$.
+
+
 
 %表 1 和表 2
 \begin{table*}[t]
@@ -360,7 +404,25 @@ In addition to the above metrics, we also calculated the probablity of detection
 \end{equation}
 The ROC curve is drawn based on the above two metrics, where $F_a$ is abscissa axis and $P_d$ is ordinate axis.
 
+%%分栏中不允许试用浮动项,可以这样处理
+\newenvironment{figurehere}
+{\def\@captype{figure}}
+{}
 
+%插图，实验结果
+\begin{figure*}
+  \centering
+  \includegraphics[scale=0.55]{result1.eps}
+  \caption{The results of six methods on simulation video set. The first column is original frames. The results int first line are corresponding to IPI, MPCM, RIPT from left to right. The results in second line are corresponding to STLCF, STSA, ours from left to right}
+  \label{result1}
+\end{figure*}
+
+\begin{figure*}
+  \centering
+  \includegraphics[scale=0.55]{result2.eps}
+  \caption{The results of six methods on real video set. The first column is original frames. The results int first line are corresponding to IPI, MPCM, RIPT from left to right. The results in second line are corresponding to STLCF, STSA, ours from left to right}
+  \label{result2}
+\end{figure*}
 
 \subsection{Infrared Video Sets}
 In order to verify the effectiveness of our method for small target detection and compare it with other detection methods, the proposed method and other classical detection methods are tested on both the simulated infrared video set and the real infrared video set. The results are compared with each other and we summarize the advantages and disadvantages of all detection methods.
@@ -372,6 +434,7 @@ Real video set: The real video set is divided into two types: sky background and
 The infrared videos and infrared background videos utilized in this paper were all taken with the iRay series LA6110 uncooled infrared camera by us. Next, we will introduce the two video sets separately.
 
 To fully validate the validity of our detection method, all infrared videos utilized in experiments have highly complex background. It can be seen from the video frames shown in table \ref{tab1} and table \ref{tab2} that there are a large number of target-similar interference components in infrared videos indeed, such as plaque clouds, tree branches, building spots and some high noise.
+
 
 %% 表 3 和表 4
 \begin{table*}[t]
@@ -454,25 +517,7 @@ It can be seen from figure \ref{result1} that the methods including IPI, MPCM an
 It can be seen from figure \ref{result2} that the methods including IPI and MPCM also view cloud plaques and bright spots of buildings as true targets mistakenly. Though RIPT can suppress strong edges effectively, it is difficult to recognize target-similar spots. Due to the noise of video is small and the movement of background is not obvious, STLCF and STSA have better results than single image based detectin methods, as shown in figure \ref{result2} seq1 and seq2. But there are still small number of missed targets and false alarms in detection results. Howerer, it can be seen from figure \ref{result2}, the method proposed by us has good results in four real videos.
 
 
-%%分栏中不允许试用浮动项,可以这样处理
-\newenvironment{figurehere}
-{\def\@captype{figure}}
-{}
 
-%插图，实验结果
-\begin{figure*}
-  \centering
-  \includegraphics[scale=0.55]{result1.eps}
-  \caption{The results of six methods on simulation video set. The first column is original frames. The results int first line are corresponding to IPI, MPCM, RIPT from left to right. The results in second line are corresponding to STLCF, STSA, ours from left to right}
-  \label{result1}
-\end{figure*}
-
-\begin{figure*}
-  \centering
-  \includegraphics[scale=0.55]{result2.eps}
-  \caption{The results of six methods on real video set. The first column is original frames. The results int first line are corresponding to IPI, MPCM, RIPT from left to right. The results in second line are corresponding to STLCF, STSA, ours from left to right}
-  \label{result2}
-\end{figure*}
 
 
 \subsubsection{Measurement Metrics}
