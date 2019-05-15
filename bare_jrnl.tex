@@ -138,19 +138,19 @@ Infrared video, small target detection, spatio-temporal tensor model, tensor dec
 
 \section{Introduction}
 
-\IEEEPARstart{A}{t} present, infrared target detection technology has been widely used in missile tracking, precision guidance, early warning, maritime surveillance, ground monitoring\cite{luo2015space,dawson2010space,li2014infrared}, etc. Compared with ordinary detection tasks, lacking sufficient information to determine the target is the main challenge of small target detection in infrared images. Due to long infrared imaging distance, the size of small targets in infrared images is very small, generally ranging from $2\times2$ to $9\times9$ pixels\cite{wang2017infrared}. And in the case of long imaging distance, the small target in infrared images has no fixed shape and stable texture feature. In addition, the infrared radiation of target is heavily attenuated after long-distance propagation, which results in a low signal-to-noise ratio (SNR) for small infrared target\cite{li2016novel}. When there are complex background clutter and noise, small target with low signal-to-clutter ratio (SCR) is usually buried in background. Therefore, the detection of small targets under complex infrared background remains a problem which is full of difficulty and challenges.
+\IEEEPARstart{A}{t} present, infrared target detection technology has been widely used in missile tracking, precision guidance, early warning, maritime surveillance, ground monitoring\cite{luo2015space,dawson2010space,li2014infrared}, etc. Compared with ordinary detection tasks, lacking sufficient information to determine the target is the main challenge of small target detection in infrared images. Due to long infrared imaging distance, the size of small targets in infrared images is very small, generally ranging from $2\times2$ to $9\times9$ pixels\cite{wang2017infrared}. And in the case of long imaging distance, the small target in infrared images has no fixed shape and stable texture feature. In addition, the infrared radiation of target is heavily attenuated after long-distance propagation, which results in a low signal-to-noise ratio (SNR) for small infrared target\cite{li2016novel}. When there are complex background clutter and noise, small target with low signal-to-clutter ratio (SCR) is usually buried in background. Therefore, the detection of small targets under complex infrared background remains a problem which is full of difficulties and challenges.
 
 Compared with visible image, infrared image looks simpler. However, infrared image lacks color information and texture information, and has poor image quality usually, which causes great difficulty in the process of small target detection. The lack of color information will result in fewer features for distinguishing between target and background. The lack of texture information and shape information means that target cannot be distinguished based on feature learning method easily. Therefore, utilizing not only the relationship between small target and background, but also the motion characteristics of target is a wise direction to detect infrared small targets.
 
 The small target detection methods in infrared video are mainly divided into two categories: single-frame detection methods which only utilize spatial information and spatio-temporal detection methods which utilize inter-frame temporal information and intra-frame spatial information\cite{li2016novel}. There are often some special backgrounds, such as artificial objects and cloud patchs, which will interfere with target detection task. Moreover, the imaging resolution and SCR of small target are smaller than expected. Therefore, the small target on a single image is invisible in perception and it is impossible to identify target by using only the information in spatial domain. According to above analysis, it is extremely important to make full use of the context information of small target in temporal domain. The current spatio-temporal detection methods usually calculate the local contrast of spatial domain and temporal domain separately, and combine them to detect small target. However, only calculating of local contrast will not identify true small target in the case of complex noise or motion of background, resulting in excessive false alarms and missed alarms. In order to make full use of the effective information of temporal domain and spatial domain, and to avoid the influence of noise when detecting, we propose a method for small target detection based on spatio-temporal tensor decomposition. The main contribution of this paper is as follows: We propose the spatio-temporal tensor model which considers the local correlation of background image patchs in spatial and temporal neighborhood domain, so background clutters will be suppressed better. Meanwhile, our method not only reflects the spatial salience of target, but also makes full use of the motion characteristics in temporal domain of small target by utilizing the sparse characteristics of small target in spatio-temporal neighborhood domain.
 
-The remaining chapters of this paper are organized as follows: We introduce the related researches of infrared small target detection in section \Rmnum{2}; And in section \Rmnum{3} we propose the spatio-temporal tensor model and the method for detecting infrared small targets via spatio-temporal tensor model in detail; In section \Rmnum{4},we verify the effectiveness of the proposed method via a large number of experiments; In section \Rmnum{5}, we give the conclusions and prospects for future.
+The remaining chapters of this paper are organized as follows: We introduce the related researches of infrared small target detection in section \Rmnum{2}; And in section \Rmnum{3} we propose the spatio-temporal tensor model and the method for detecting infrared small target via spatio-temporal tensor model in detail; In section \Rmnum{4},we verify the effectiveness of the proposed method via a large number of experiments; In section \Rmnum{5}, we give the conclusions and prospects for future.
 
 %Related work
 %
 %
 \section{Related Work}
-At present, the methods proposed for detecting small targets in infrared video can roughly classified into two categories. The first category is mainly performing target detection based on a single image. Another category detect small targets utilizing multiple images from a infrared video.
+At present, the methods proposed for detecting small targets in infrared video can roughly classified into two categories. The first category is mainly performing target detection based on a single image. Another category detects small targets utilizing multiple images from a infrared video.
 
 \subsection{Detection Methods Based on Single Image}
 The methods for target detection via single image are further divided into two types, which are based on the following two assumptions. The first type of methods is based on a classic assumption that background changes slowly in infrared image and high correlations exist between adjacent pixels. Another type of methods based on single image utilizes the non-local self-correlation between background patches in infrared image. It is usually assumed that all background image patches in infrared image are from a low-rank subspace or a mixed set composed with multiple low-rank subspaces\cite{liu2013robust}.
@@ -160,7 +160,7 @@ Based on the first hypothesis, many classical methods based on image filtering a
 Based on the second hypothesis, small target detection in infrared image can be transformed into a low-rank matrix recovery problem. Gao et al.\cite{gao2013infrared} proposed to convert the traditional infrared image model into a new infrared image patch model, and transformed the target-background problem into a matrice recovery problem. Therefore target could be separeated from background via recovering low-rank and sparse matrices. However, this method still has bad effect in the face of strong edges and clutters, so RIPT\cite{dai2017reweighted} extract prior features via local structure information , and then suppress edges with local structure weight in the process of small target detection. But in the case of complex background, background patches may come from multiple low-rank subspaces, so Wang et al.\cite{wang2017infrared} use a multiple-subspace learning strategy to suppress background better, whih can reduce false alarm rate effectively. The above methods are based on robust principal component analysis (RPCA) to achieve small target detection. However, due to the existence of many clutters in background in single image, such as cloud patches in sky and fixed heat objects on ground, the detection of true target will be interfered seriously. The information in single image is not sufficient to identify small target, so it is necessary to take temporal information into account including motion information of target and context information of background.
 
 \subsection{Detection Methods Based on Multiple Images}
-The other category mathods for infrared small targets detection are mainly based on multiple images from infrared video. These methods make full use of information in spatial domain to suppress background clutters and utilize motion characteristics of target to highlight small target. Therefore better detection results could got usually. Silverman and Caefer et al. utilized temporal information for small target detection, and proposed Recursive Variance Filter (TVF)\cite{silverman1998temporal} and Damped Sinusoid Filters (TTF)\cite{caefer1998temporal}. But the difference of target and moving background can not be considered according to temporal information only. For example, moving cloud may be detected as true target wrongly. And then Deng et al.\cite{deng2016infrared} proposed a spatial-temporal local contrast filter (STLCF) for infrared small target detection, but the calculation of local contrast via pixels is easily affected by noise. Gao et al. proposed TVPCF\cite{gao2017tvpcf} which combines multiscale local contrast based on patches with temporal filter to obtain better detection results. Li et al.\cite{li2016novel} proposed a new idea to calculate local contrast. Image patches in spatio-temporal neighborhood of current image patch are used to reconstruct a new image patch. The difference of current image patch and reconstructed image patch is defined as spatio-temporal local contrast. Although this method can suppress clutters and single pixel noise, the reconstruction process is extremely sensitive to noise. Therefore many targets will be missed under high noise.
+The other category methods for infrared small targets detection are mainly based on multiple images from infrared video. These methods make full use of information in spatial domain to suppress background clutters and utilize motion characteristics of target to highlight small target. Therefore better detection results could got usually. Silverman and Caefer et al. utilized temporal information for small target detection, and proposed Recursive Variance Filter (TVF)\cite{silverman1998temporal} and Damped Sinusoid Filters (TTF)\cite{caefer1998temporal}. But the difference of target and moving background can not be considered according to temporal information only. For example, moving cloud may be detected as true target wrongly. And then Deng et al.\cite{deng2016infrared} proposed a spatial-temporal local contrast filter (STLCF) for infrared small target detection, but the calculation of local contrast via pixels is easily affected by noise. Gao et al. proposed TVPCF\cite{gao2017tvpcf} which combines multiscale local contrast based on patches with temporal filter to obtain better detection results. Li et al.\cite{li2016novel} proposed a new idea to calculate local contrast. Image patches in spatio-temporal neighborhood of current image patch are used to reconstruct a new image patch. The difference of current image patch and reconstructed image patch is defined as spatio-temporal local contrast. Although this method can suppress clutters and single pixel noise, the reconstruction process is extremely sensitive to noise. Therefore many targets will be missed under high noise.
 
 \begin{figure*}[htb]
   \centering
@@ -186,7 +186,7 @@ where $f_D,f_T,f_B,f_N \text{ and } (x,y)$ correspond to the input infrared imag
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.45\textwidth]{construction.eps}
+  \includegraphics[width=0.45\textwidth]{construction.pdf}
   \caption{The construction of the spatio-temporal cube}
   \label{construction}
 \end{figure}
@@ -419,15 +419,15 @@ The ROC curve is drawn based on the above two metrics, where $F_a$ is abscissa a
 %插图，实验结果
 \begin{figure*}
   \centering
-  \includegraphics[scale=0.55]{result1.eps}
-  \caption{The results of six methods on simulation video set. The first column is original frames. The results int first line are corresponding to IPI, MPCM, RIPT from left to right. The results in second line are corresponding to STLCF, STSA, ours from left to right}
+  \includegraphics[scale=0.55]{result1.pdf}
+  \caption{The results of six methods on simulation video set.}
   \label{result1}
 \end{figure*}
 
 \begin{figure*}
   \centering
-  \includegraphics[scale=0.55]{result2.eps}
-  \caption{The results of six methods on real video set. The first column is original frames. The results int first line are corresponding to IPI, MPCM, RIPT from left to right. The results in second line are corresponding to STLCF, STSA, ours from left to right}
+  \includegraphics[scale=0.55]{result2.pdf}
+  \caption{The results of six methods on real video set.}
   \label{result2}
 \end{figure*}
 
@@ -619,24 +619,6 @@ The authors would like to thank...
 % \includegraphics command within an optional argument. (You could create
 % your own custom macro containing the \includegraphics command to make things
 % simpler here.)
-%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
-% or if you just want to reserve a space for a photo:
-
-\begin{IEEEbiography}{Hongkang Liu}
-Biography text here.
-\end{IEEEbiography}
-
-% if you will not have a photo at all:
-\begin{IEEEbiographynophoto}{Lei Zhang}
-Biography text here.
-\end{IEEEbiographynophoto}
-
-
-\begin{IEEEbiographynophoto}{Hua Huang}
-Biography text here.
-\end{IEEEbiographynophoto}
-
-
 \end{document}
 
 
