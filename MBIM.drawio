@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-04T03:36:39.210Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="0wqmUlXwJf4L2p_FOfCy" version="14.1.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-01-04T06:32:56.195Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="qOGyk4LcZgECon86zPb9" version="14.1.8" type="github">
   <diagram name="Page-1" id="13e1069c-82ec-6db2-03f1-153e76fe0fe0">
     <mxGraphModel dx="1422" dy="706" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
       <root>
@@ -152,17 +152,20 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="222DA1gHv_utM4bN-oHq-2" value="mbim_req_command_handle.c" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" vertex="1" parent="1">
-          <mxGeometry x="920" y="80" width="160" height="580" as="geometry" />
+        <mxCell id="222DA1gHv_utM4bN-oHq-2" value="other_req:handle" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="900" y="80" width="130" height="580" as="geometry" />
         </mxCell>
         <mxCell id="222DA1gHv_utM4bN-oHq-3" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;fontFamily=Verdana;fontSize=12;fontColor=#000000;align=center;" vertex="1" parent="1">
           <mxGeometry x="975" y="460" width="10" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="222DA1gHv_utM4bN-oHq-4" value="mbim_req_others_handle.c" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" vertex="1" parent="1">
-          <mxGeometry x="1120" y="80" width="120" height="580" as="geometry" />
+        <mxCell id="222DA1gHv_utM4bN-oHq-4" value="at:encoder" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="80" width="120" height="580" as="geometry" />
         </mxCell>
         <mxCell id="222DA1gHv_utM4bN-oHq-5" value="mbim:interface" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" vertex="1" parent="1">
           <mxGeometry x="380" y="80" width="120" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="222DA1gHv_utM4bN-oHq-6" value="at:parser" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="80" width="120" height="580" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
